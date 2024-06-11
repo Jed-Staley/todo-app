@@ -1,0 +1,27 @@
+@import './variables';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+body {
+  background: $backgroundColor;
+  color: $textColor;
+  height: 100%;
+
+  #root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+}
