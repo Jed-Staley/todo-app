@@ -2,7 +2,7 @@
 import React, { useContext, useState } from 'react';
 import { Paper, Text, Button, Container, Divider } from '@mantine/core';
 // eslint-disable-next-line no-unused-vars
-import { SettingsContext } from '../../Context/Settings';
+import { SettingsContext } from './Settings';
 import { Pagination } from '@mantine/core';
 
 const List = ({ list, setList, itemsPerPage, showCompleted }) => {

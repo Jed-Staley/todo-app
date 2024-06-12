@@ -1,10 +1,10 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState, useContext, useEffect } from 'react';
 import { TextInput, Button, Slider, Container, Title, Group, Center } from '@mantine/core';
-import useForm from '../../hooks/form';
+import useForm from '../hooks/form';
 import { v4 as uuid } from 'uuid';
-import { SettingsContext } from '../../Context/Settings';
-import List from '../List';
+import { SettingsContext } from './Settings';
+import List from './List';
 
 const Todo = () => {
   const { itemsPerPage, showCompleted } = useContext(SettingsContext);

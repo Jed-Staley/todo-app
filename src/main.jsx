@@ -4,7 +4,7 @@ import "@mantine/core/styles.css";
 import { MantineProvider } from '@mantine/core';
 
 import App from './App';
-import SettingsProvider from './Context/Settings';
+import SettingsProvider from './Components/Settings';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

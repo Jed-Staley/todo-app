@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useContext, useState } from 'react';
 import { Container, Text, NumberInput, Switch, Button } from '@mantine/core';
-import { SettingsContext } from '../../Context/Settings';
+import { SettingsContext } from './Settings';
 
 const SettingsMenu = () => {
   const { itemsPerPage, showCompleted, setItemsPerPage, setShowCompleted } = useContext(SettingsContext);
