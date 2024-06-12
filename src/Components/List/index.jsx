@@ -1,9 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useContext, useState } from 'react';
+import { Paper, Text, Button, Container, Divider } from '@mantine/core';
+// eslint-disable-next-line no-unused-vars
 import { SettingsContext } from '../../Context/Settings';
 import { Pagination } from '@mantine/core';
 
-const List = ({ list, setList }) => {
-  const { itemsPerPage, hideCompleted, sortWord } = useContext(SettingsContext);
+const List = ({ list, setList, itemsPerPage, showCompleted }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   function deleteItem(id) {
@@ -22,26 +24,27 @@ const List = ({ list, setList }) => {
     setList(items);
   }
 
-  const filteredList = hideCompleted ? list.filter(item => !item.complete) : list;
-  const sortedList = filteredList.sort((a, b) => (a[sortWord] > b[sortWord] ? 1 : -1));
-  const paginatedList = sortedList.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-  const totalPages = Math.ceil(sortedList.length / itemsPerPage);
+  const filteredList = showCompleted ? list : list.filter(item => !item.complete);
+  const paginatedList = filteredList.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const totalPages = Math.ceil(filteredList.length / itemsPerPage);
 
   return (
-    <>
+    <Container>
       {paginatedList.map(item => (
-        <div key={item.id}>
-          <p>{item.text}</p>
-          <p><small>Assigned to: {item.assignee}</small></p>
-          <p><small>Difficulty: {item.difficulty}</small></p>
-          <div onClick={() => toggleComplete(item.id)}>Complete: {item.complete.toString()}</div>
-          <button onClick={() => deleteItem(item.id)}>Delete</button>
-          <hr />
-        </div>
+        <Paper key={item.id} withBorder shadow="md" padding="md" style={{ backgroundColor: '#2a2a2a', color: '#f5f5f5' }}>
+          <Text>{item.text}</Text>
+          <Text><small>Assigned to: {item.assignee}</small></Text>
+          <Text><small>Difficulty: {item.difficulty}</small></Text>
+          <Button onClick={() => toggleComplete(item.id)}>
+            Complete: {item.complete.toString()}
+          </Button>
+          <Button color="red" onClick={() => deleteItem(item.id)}>Delete</Button>
+          <Divider my="sm" />
+        </Paper>
       ))}
 
       <Pagination total={totalPages} page={currentPage} onChange={setCurrentPage} />
-    </>
+    </Container>
   );
 };
 

@@ -1,11 +1,13 @@
-import React, { useEffect, useState, useContext } from 'react';
+// eslint-disable-next-line no-unused-vars
+import React, { useState, useContext, useEffect } from 'react';
+import { TextInput, Button, Slider, Container, Title, Group, Center } from '@mantine/core';
 import useForm from '../../hooks/form';
 import { v4 as uuid } from 'uuid';
 import { SettingsContext } from '../../Context/Settings';
 import List from '../List';
 
 const Todo = () => {
-  const { itemsPerPage, hideCompleted, sortWord } = useContext(SettingsContext);
+  const { itemsPerPage, showCompleted } = useContext(SettingsContext);
   const [defaultValues] = useState({
     difficulty: 4,
   });
@@ -23,38 +25,56 @@ const Todo = () => {
     let incompleteCount = list.filter(item => !item.complete).length;
     setIncomplete(incompleteCount);
     document.title = `To Do List: ${incomplete}`;
-    // linter will want 'incomplete' added to dependency array unnecessarily. 
-    // disable code used to avoid linter warning 
-    // eslint-disable-next-line react-hooks/exhaustive-deps 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list]);
 
   return (
-    <>
+    <Container style={{ marginBottom: '80px', color: '#f5f5f5' }}>
       <header data-testid="todo-header">
-        <h1 data-testid="todo-h1">To Do List: {incomplete} items pending</h1>
+        <Center>
+          <Title order={1} data-testid="todo-h1" style={{ marginTop: '20px', marginBottom: '20px', color: '#fff' }}>To Do List: {incomplete} items pending</Title>
+        </Center>
       </header>
 
-      <form onSubmit={handleSubmit}>
-        <h2>Add To Do Item</h2>
-        <label>
-          <span>To Do Item</span>
-          <input onChange={handleChange} name="text" type="text" placeholder="Item Details" />
-        </label>
-        <label>
-          <span>Assigned To</span>
-          <input onChange={handleChange} name="assignee" type="text" placeholder="Assignee Name" />
-        </label>
-        <label>
-          <span>Difficulty</span>
-          <input onChange={handleChange} defaultValue={defaultValues.difficulty} type="range" min={1} max={5} name="difficulty" />
-        </label>
-        <label>
-          <button type="submit">Add Item</button>
-        </label>
+      <form onSubmit={handleSubmit} style={{ marginBottom: '40px' }}>
+        <Title order={2} style={{ color: '#fff' }}>Add To Do Item</Title>
+        <TextInput
+          label="To Do Item"
+          placeholder="Item Details"
+          name="text"
+          onChange={handleChange}
+          style={{ color: '#fff' }}
+        />
+        <TextInput
+          label="Assigned To"
+          placeholder="Assignee Name"
+          name="assignee"
+          onChange={handleChange}
+          style={{ color: '#fff' }}
+        />
+        <Group direction="column" spacing="xs" grow>
+          <label style={{ color: '#fff' }}>Difficulty</label>
+          <Slider
+            label={null}
+            min={1}
+            max={5}
+            step={1}
+            marks={[
+              { value: 1, label: '1' },
+              { value: 2, label: '2' },
+              { value: 3, label: '3' },
+              { value: 4, label: '4' },
+              { value: 5, label: '5' },
+            ]}
+            name="difficulty"
+            onChange={handleChange}
+          />
+        </Group>
+        <Button type="submit" style={{ marginTop: '20px' }}>Add Item</Button>
       </form>
 
-      <List list={list} setList={setList} />
-    </>
+      <List list={list} setList={setList} itemsPerPage={itemsPerPage} showCompleted={showCompleted} />
+    </Container>
   );
 };
 
