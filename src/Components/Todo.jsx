@@ -7,7 +7,8 @@ import { SettingsContext } from './Settings';
 import List from './List';
 
 const Todo = () => {
-  const { itemsPerPage, showCompleted } = useContext(SettingsContext);
+  // eslint-disable-next-line no-unused-vars
+  const { itemsPerPage, showCompleted, searchString, filterBySearch } = useContext(SettingsContext);
   const [defaultValues] = useState({
     difficulty: 4,
   });
@@ -73,7 +74,7 @@ const Todo = () => {
         <Button type="submit" style={{ marginTop: '20px' }}>Add Item</Button>
       </form>
 
-      <List list={list} setList={setList} itemsPerPage={itemsPerPage} showCompleted={showCompleted} />
+      <List list={list} setList={setList} />
     </Container>
   );
 };

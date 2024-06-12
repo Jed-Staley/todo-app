@@ -14,6 +14,16 @@ const SettingsProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : true;
   });
 
+  const [searchString, setSearchString] = useState(() => {
+    const saved = localStorage.getItem('searchString');
+    return saved ? saved : '';
+  });
+
+  const [filterBySearch, setFilterBySearch] = useState(() => {
+    const saved = localStorage.getItem('filterBySearch');
+    return saved ? JSON.parse(saved) : false;
+  });
+
   useEffect(() => {
     localStorage.setItem('itemsPerPage', JSON.stringify(itemsPerPage));
   }, [itemsPerPage]);
@@ -22,11 +32,23 @@ const SettingsProvider = ({ children }) => {
     localStorage.setItem('showCompleted', JSON.stringify(showCompleted));
   }, [showCompleted]);
 
+  useEffect(() => {
+    localStorage.setItem('searchString', searchString);
+  }, [searchString]);
+
+  useEffect(() => {
+    localStorage.setItem('filterBySearch', JSON.stringify(filterBySearch));
+  }, [filterBySearch]);
+
   const value = {
     itemsPerPage,
     showCompleted,
+    searchString,
+    filterBySearch,
     setItemsPerPage,
     setShowCompleted,
+    setSearchString,
+    setFilterBySearch,
   };
 
   return (

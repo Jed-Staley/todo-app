@@ -1,11 +1,11 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useContext, useState } from 'react';
 import { Paper, Text, Button, Container, Divider } from '@mantine/core';
-// eslint-disable-next-line no-unused-vars
 import { SettingsContext } from './Settings';
 import { Pagination } from '@mantine/core';
 
-const List = ({ list, setList, itemsPerPage, showCompleted }) => {
+const List = ({ list, setList }) => {
+  const { itemsPerPage, showCompleted, searchString, filterBySearch } = useContext(SettingsContext);
   const [currentPage, setCurrentPage] = useState(1);
 
   function deleteItem(id) {
@@ -25,8 +25,16 @@ const List = ({ list, setList, itemsPerPage, showCompleted }) => {
   }
 
   const filteredList = showCompleted ? list : list.filter(item => !item.complete);
-  const paginatedList = filteredList.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-  const totalPages = Math.ceil(filteredList.length / itemsPerPage);
+  const finalList = filterBySearch
+    ? filteredList.filter(item => {
+        return Object.values(item).some(value => 
+          value.toString().toLowerCase().includes(searchString.toLowerCase())
+        );
+      })
+    : filteredList;
+
+  const paginatedList = finalList.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const totalPages = Math.ceil(finalList.length / itemsPerPage);
 
   return (
     <Container>
