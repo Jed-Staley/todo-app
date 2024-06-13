@@ -1,27 +1,33 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useContext, useState } from 'react';
 import { Paper, Text, Button, Container, Divider } from '@mantine/core';
-import { SettingsContext } from './Settings';
+import { SettingsContext } from './Context/Settings';
 import { Pagination } from '@mantine/core';
 
 const List = ({ list, setList }) => {
-  const { itemsPerPage, showCompleted, searchString, filterBySearch } = useContext(SettingsContext);
+  const { itemsPerPage, showCompleted, searchString, filterBySearch, user } = useContext(SettingsContext);
   const [currentPage, setCurrentPage] = useState(1);
 
   function deleteItem(id) {
-    const items = list.filter(item => item.id !== id);
-    setList(items);
+    if (['moderator', 'admin'].includes(user.role)) {
+      const items = list.filter(item => item.id !== id);
+      setList(items);
+    } else {
+      alert('Unauthorized');
+    }
   }
 
   function toggleComplete(id) {
-    const items = list.map(item => {
-      if (item.id === id) {
-        item.complete = !item.complete;
-      }
-      return item;
-    });
-
-    setList(items);
+    if (user.role !== 'guest') {
+      const items = list.map(item => {
+        if (item.id === id) {
+          item.complete = !item.complete;
+        }
+        return item;
+      });
+      setList(items);
+    } else {
+      alert('Unauthorized');
+    }
   }
 
   const filteredList = showCompleted ? list : list.filter(item => !item.complete);
@@ -43,10 +49,16 @@ const List = ({ list, setList }) => {
           <Text>{item.text}</Text>
           <Text><small>Assigned to: {item.assignee}</small></Text>
           <Text><small>Difficulty: {item.difficulty}</small></Text>
-          <Button onClick={() => toggleComplete(item.id)}>
-            Complete: {item.complete.toString()}
-          </Button>
-          <Button color="red" onClick={() => deleteItem(item.id)}>Delete</Button>
+          {user.role !== 'guest' && (
+            <>
+              <Button onClick={() => toggleComplete(item.id)}>
+                Complete: {item.complete.toString()}
+              </Button>
+              {['moderator', 'admin'].includes(user.role) && (
+                <Button color="red" onClick={() => deleteItem(item.id)}>Delete</Button>
+              )}
+            </>
+          )}
           <Divider my="sm" />
         </Paper>
       ))}

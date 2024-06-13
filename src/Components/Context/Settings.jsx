@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React, { createContext, useState, useEffect } from 'react';
 
 export const SettingsContext = createContext();
@@ -23,6 +22,8 @@ const SettingsProvider = ({ children }) => {
     const saved = localStorage.getItem('filterBySearch');
     return saved ? JSON.parse(saved) : false;
   });
+
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     localStorage.setItem('itemsPerPage', JSON.stringify(itemsPerPage));
@@ -49,6 +50,8 @@ const SettingsProvider = ({ children }) => {
     setShowCompleted,
     setSearchString,
     setFilterBySearch,
+    user,
+    setUser,
   };
 
   return (
