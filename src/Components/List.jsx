@@ -1,8 +1,9 @@
-// eslint-disable-next-line no-unused-vars
 import React, { useContext, useState } from 'react';
 import { Paper, Text, Button, Container, Divider } from '@mantine/core';
-import { SettingsContext } from './Settings';
+import { SettingsContext } from '../Context/Settings';
+import { LoginContext } from '../Context/LoginContext';
 import { Pagination } from '@mantine/core';
+import Auth from './Auth/Auth';
 
 const List = ({ list, setList }) => {
   const { itemsPerPage, showCompleted, searchString, filterBySearch } = useContext(SettingsContext);
@@ -43,10 +44,14 @@ const List = ({ list, setList }) => {
           <Text>{item.text}</Text>
           <Text><small>Assigned to: {item.assignee}</small></Text>
           <Text><small>Difficulty: {item.difficulty}</small></Text>
-          <Button onClick={() => toggleComplete(item.id)}>
-            Complete: {item.complete.toString()}
-          </Button>
-          <Button color="red" onClick={() => deleteItem(item.id)}>Delete</Button>
+          <Auth capability="update">
+            <Button onClick={() => toggleComplete(item.id)}>
+              Complete: {item.complete.toString()}
+            </Button>
+          </Auth>
+          <Auth capability="delete">
+            <Button color="red" onClick={() => deleteItem(item.id)}>Delete</Button>
+          </Auth>
           <Divider my="sm" />
         </Paper>
       ))}
