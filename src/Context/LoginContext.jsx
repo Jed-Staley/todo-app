@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { createContext, useState, useEffect, useCallback } from 'react';
 import cookie from 'react-cookies';
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from 'jwt-decode';
 
 const testUsers = {
   Administrator: {
@@ -23,6 +24,19 @@ const testUsers = {
     name: 'User',
     token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiVXNlciIsInJvbGUiOiJ1c2VyIiwiY2FwYWJpbGl0aWVzIjpbInJlYWQiXSwiaWF0IjoxNTE2MjM5MDIyfQ.9fNc0IPpwWhJqjFfCg69Yo31jVICs6qjqNeBA-Xi4XA"
   },
+};
+
+export const login = (username, password) => {
+  const auth = testUsers[username];
+  if (auth && auth.password === password) {
+    return auth.token;
+  } else {
+    throw new Error('Invalid credentials');
+  }
+};
+
+export const can = (user, capability) => {
+  return user.capabilities.includes(capability);
 };
 
 export const LoginContext = createContext();
@@ -48,6 +62,7 @@ const LoginProvider = ({ children }) => {
       console.log('Invalid credentials'); // Debug log
       setError('Invalid credentials');
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const logout = useCallback(() => {
@@ -81,6 +96,7 @@ const LoginProvider = ({ children }) => {
     const cookieToken = cookie.load('auth');
     const token = qs.get('token') || cookieToken || null;
     validateToken(token);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

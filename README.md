@@ -13,6 +13,10 @@ Jed Staley
 - Toggle the visibility of completed tasks
 - Responsive design with a settings menu
 
+## Whiteboard Diagram
+
+[Whiteboard](./Whiteboard.png)
+
 ## Installation
 
 1. Clone the repository:
