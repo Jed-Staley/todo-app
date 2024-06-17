@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useContext, useEffect } from 'react';
 import { TextInput, Button, Slider, Container, Title, Group, Center } from '@mantine/core';
 import useForm from '../hooks/form';
@@ -27,6 +28,7 @@ const Todo = () => {
     let incompleteCount = list.filter(item => !item.complete).length;
     setIncomplete(incompleteCount);
     document.title = `To Do List: ${incomplete}`;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [list]);
 
   return (

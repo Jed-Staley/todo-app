@@ -1,6 +1,8 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useContext, useState } from 'react';
 import { Paper, Text, Button, Container, Divider } from '@mantine/core';
 import { SettingsContext } from '../Context/Settings';
+// eslint-disable-next-line no-unused-vars
 import { LoginContext } from '../Context/LoginContext';
 import { Pagination } from '@mantine/core';
 import Auth from './Auth/Auth';
